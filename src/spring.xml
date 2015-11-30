@@ -24,5 +24,21 @@
     
   </bean>
   
+  <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+  
+  <property name="dataSource" ref="dataSource"></property>
+  <property name="packagesToScan" value="com.javariders.naresh.model"></property>
+  
+  
+  <property name="hibernateProperties">
+     <props>
+      <prop key="dialect">org.hibernate.dialect.DerbyDialect</prop>
+     
+     </props>
+  
+  </property>
+  
+  </bean>
+  
 
 </beans>

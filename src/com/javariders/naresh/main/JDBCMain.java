@@ -6,7 +6,7 @@ package com.javariders.naresh.main;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.javariders.naresh.dao.JDBCDaoImpl;
+import com.javariders.naresh.dao.HibernateDAOImpl;
 
 /**
  * @author nchinthakindi
@@ -21,9 +21,9 @@ public class JDBCMain {
 		
 		ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
 		
-		JDBCDaoImpl daop = context.getBean(JDBCDaoImpl.class);
+		HibernateDAOImpl daop = context.getBean(HibernateDAOImpl.class);
 		
-		System.out.println(daop.getCircle(1).getName());
+		System.out.println(daop.getCircleCount());
 
 	}
 
