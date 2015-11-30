@@ -1,13 +1,10 @@
 package com.javariders.naresh.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.javariders.naresh.model.Circle;
@@ -16,42 +13,54 @@ import com.javariders.naresh.model.Circle;
 public class JDBCDaoImpl 
 {
 
-	@Autowired
-	private DataSource dataSource;
+	private JdbcTemplate jdbcTemplate = null;
 	
+	/**
+	 * @param dataSource the dataSource to set
+	 */
+	@Autowired
+	public void setDataSource(DataSource dataSource) {
+		jdbcTemplate = new JdbcTemplate(dataSource);
+	}
+
+
+
+
+	/**
+	 * @return the jdbcTemplate
+	 */
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+
+
+
+	/**
+	 * @param jdbcTemplate the jdbcTemplate to set
+	 */
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+
+
+
+
 	public Circle getCircle(int id)
 	{
 		Circle circle = null;
-		Connection connection = null;
 		
 		try
 		{
-			connection = dataSource.getConnection();
 			
-			PreparedStatement st = connection.prepareStatement("select *from circle where id =?");
-			st.setInt(1, id);
-			
-			ResultSet rs = st.executeQuery();
-			
-			if(rs.next())
-			{
-				circle = new Circle(id,rs.getString("name"));
-			}
-			
+			circle = this.getJdbcTemplate().queryForObject("select id,name from circle where id =?",new Object[]{id} ,new BeanPropertyRowMapper<Circle>(Circle.class));
+						
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-		finally
-		{
-			 try {
-				connection.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		
 		return circle;
 	}
 	

@@ -3,12 +3,18 @@
  */
 package com.javariders.naresh.model;
 
+import java.io.Serializable;
+
 /**
  * @author nchinthakindi
  *
  */
-public class Circle {
+public class Circle implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String name;
 	
@@ -16,6 +22,11 @@ public class Circle {
 	{
 		this.id = id;
 		this.name = name; 
+	}
+	
+	public Circle()
+	{
+		
 	}
 	
 	/**
